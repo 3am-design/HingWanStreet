@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="58.0996" height="58.0996" viewBox="0 0 58.0996 58.0996">
+<defs>
+<clipPath id="clip_1">
+<path transform="matrix(1,0,0,-1,0,58.0996)" d="M0 58.1H58.1V0H0Z"/>
+</clipPath>
+</defs>
+<g inkscape:groupmode="layer" inkscape:label="Layer 1">
+<g clip-path="url(#clip_1)">
+<path transform="matrix(1,0,0,-1,31.771,10.062801)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="#231f20" d="M0 0C0-1.469 1.202-2.66 2.684-2.66H17.995C19.478-2.66 20.681-1.468 20.681 0V6.653C20.681 8.121 19.479 9.313 17.995 9.313H2.684C1.202 9.313 0 8.121 0 6.653V0Z"/>
+<path transform="matrix(1,0,0,-1,26.3287,10.062801)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="#231f20" d="M0 0C0-1.469-1.202-2.66-2.684-2.66H-17.995C-19.478-2.66-20.681-1.468-20.681 0V6.653C-20.681 8.121-19.479 9.313-17.995 9.313H-2.684C-1.202 9.313 0 8.121 0 6.653V0Z"/>
+<path transform="matrix(1,0,0,-1,26.3287,4.559601)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="#231f20" d="M0 0H5.442"/>
+<path transform="matrix(1,0,0,-1,.75,23.314702)" stroke-width="1.5" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#231f20" d="M0 0V16.099C0 17.569 1.198 18.755 2.672 18.755H4.898"/>
+<path transform="matrix(1,0,0,-1,57.3496,17.076802)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="#231f20" d="M0 0V-37.617C0-39.086-1.198-40.273-2.672-40.273H-53.927C-55.401-40.273-56.6-39.086-56.6-37.617V-9.503"/>
+<path transform="matrix(1,0,0,-1,52.4516,4.559601)" stroke-width="1.5" stroke-linecap="butt" stroke-linejoin="round" fill="none" stroke="#231f20" d="M0 0H2.226C3.7 0 4.898-1.186 4.898-2.656V-9.252"/>
+<path transform="matrix(1,0,0,-1,57.3496,17.076802)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="#231f20" d="M0 0-56.6-9.504-49.638-19.73C-48.092-21.694-45.422-22.323-43.183-21.25L0 0Z"/>
+</g>
+</g>
+</svg>
