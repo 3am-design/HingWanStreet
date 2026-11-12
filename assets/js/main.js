@@ -125,7 +125,7 @@
     var plan = [
       ['.intro__title', ''],
       ['.intro__body p', '', 140],
-      ['.reserve__media', 'img'],
+      ['.reserve__media', 'fade'],
       ['.reserve__text', '', 0, 0, 500],
       ['.suites > .label', ''],
       ['.tabs', '', 0, 0, 150],
@@ -220,9 +220,9 @@
       setTimeout(go, 2500);
     });
 
-    // Banner parallax + hero dim, rAF-throttled
+    // Banner pin + hero dim, rAF-throttled
     var media = document.querySelector('.reserve__media');
-    var mediaImg = media && media.querySelector('img');
+    var headerEl = document.querySelector('.site-header');
     var hero = document.querySelector('.hero');
     var ticking = false;
     function frame() {
@@ -231,9 +231,8 @@
       if (media) {
         var r = media.getBoundingClientRect();
         if (r.bottom > 0 && r.top < vh) {
-          // -1 (entering bottom) .. 1 (leaving top)
-          var p = ((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2);
-          media.style.setProperty('--py', (p * r.height * 0.07).toFixed(1) + 'px');
+          // keep the photo's top on the header line, i.e. fixed to the window
+          media.style.setProperty('--pin', (headerEl.offsetHeight - r.top).toFixed(1) + 'px');
         }
       }
       if (hero) {
@@ -245,10 +244,6 @@
     window.addEventListener('scroll', onTick, { passive: true });
     window.addEventListener('resize', onTick);
     frame();
-    // after the reveal transition, let parallax track the scroll 1:1
-    if (media) media.addEventListener('transitionend', function (e) {
-      if (e.target === mediaImg && e.propertyName === 'transform' && media.classList.contains('is-in')) media.classList.add('is-settled');
-    });
   }
 
   /* ---------- Enquiry form (opens mail client; swap for a backend endpoint later) ---------- */

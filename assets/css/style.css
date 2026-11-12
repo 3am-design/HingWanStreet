@@ -234,8 +234,21 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
 
 /* ---------- Reserve banner (1870×907, inset 25) ---------- */
 .reserve { padding: 0 var(--gutter); }
-.reserve__media { position: relative; margin: 0; overflow: hidden; }
-.reserve__media img { width: 100%; aspect-ratio: 1870 / 907; object-fit: cover; object-position: 50% 62%; }
+/* The frame scrolls with the page; the photo inside stays pinned to the window
+   (JS sets --pin) and zooms in very slowly, like the hero. */
+.reserve__media { position: relative; margin: 0; overflow: hidden; aspect-ratio: 1870 / 907; }
+.reserve__media img {
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%;
+  height: max(100%, calc(100vh - var(--header-h)));
+  height: max(100%, calc(100svh - var(--header-h)));
+  object-fit: cover;
+  object-position: 50% 62%;
+  translate: 0 var(--pin, 0px);
+  transform-origin: 50% 50%;
+  will-change: translate, transform;
+}
 .reserve__text {
   position: absolute;
   left: calc(27 * var(--s));
@@ -602,7 +615,8 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
   .intro__body p + p { margin-top: 1em; }
 
   .reserve { padding: 0; }
-  .reserve__media img { aspect-ratio: 4 / 5; object-position: 30% 50%; }
+  .reserve__media { aspect-ratio: 4 / 5; }
+  .reserve__media img { object-position: 30% 50%; }
   .reserve__media::after {
     content: ""; position: absolute; inset: 40% 0 0 0;
     background: linear-gradient(to bottom, transparent, rgba(0,0,0,.45));
@@ -784,12 +798,8 @@ main > .enquiries { background: var(--grey); }
 .anim [data-reveal].is-in { opacity: 1; transform: none; }
 .anim [data-reveal="img"].is-in img { clip-path: inset(0 0 0 0); transform: scale(1); }
 
-/* Reserve banner: inner parallax (image moves slower than the page) */
-.reserve__media img { will-change: transform; }
-.anim .reserve__media.is-in img {
-  transform: translate3d(0, var(--py, 0px), 0) scale(1.16);
-}
-.anim .reserve__media.is-settled img { clip-path: none; transition: none; }
+/* Reserve banner: pinned photo zooms in slowly once the banner is on screen */
+.anim .reserve__media.is-in img { animation: hero-zoom 30s var(--ease-slow) both; }
 
 /* Suite tab change: cross-fade the panel in */
 .anim .suite.is-switching { animation: panel-in .9s var(--ease) both; }
