@@ -220,21 +220,12 @@
       setTimeout(go, 2500);
     });
 
-    // Banner pin + hero dim, rAF-throttled
-    var media = document.querySelector('.reserve__media');
-    var headerEl = document.querySelector('.site-header');
+    // Hero dim, rAF-throttled (the Reserve banner pin is pure CSS)
     var hero = document.querySelector('.hero');
     var ticking = false;
     function frame() {
       ticking = false;
       var vh = window.innerHeight;
-      if (media) {
-        var r = media.getBoundingClientRect();
-        if (r.bottom > 0 && r.top < vh) {
-          // keep the photo's top on the header line, i.e. fixed to the window
-          media.style.setProperty('--pin', (headerEl.offsetHeight - r.top).toFixed(1) + 'px');
-        }
-      }
       if (hero) {
         var h = hero.offsetHeight || 1;
         hero.style.setProperty('--hero-dim', Math.min(window.scrollY / h, 1) * 0.35);

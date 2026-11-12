@@ -234,23 +234,33 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
 
 /* ---------- Reserve banner (1870×907, inset 25) ---------- */
 .reserve { padding: 0 var(--gutter); }
-/* The frame scrolls with the page; the photo inside stays pinned to the window
-   (JS sets --pin) and zooms in very slowly, like the hero. */
-.reserve__media { position: relative; margin: 0; overflow: hidden; aspect-ratio: 1870 / 907; }
+/* The frame scrolls with the page; the photo stays pinned to the window and zooms in
+   very slowly. Pure CSS (no scroll JS): the photo is position:fixed and the frame's
+   clip-path cuts it to the frame — runs on the compositor, so it never lags the scroll.
+   Note: no transform / will-change:transform on .reserve__media or its ancestors,
+   or the fixed photo would start scrolling with them. */
+.reserve__media {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1870 / 907;
+  clip-path: inset(0);
+}
 .reserve__media img {
-  position: absolute;
-  left: 0; top: 0;
+  position: fixed;
+  z-index: 0;
+  left: 0;
+  top: var(--header-h);
   width: 100%;
-  height: max(100%, calc(100vh - var(--header-h)));
-  height: max(100%, calc(100svh - var(--header-h)));
+  height: calc(100vh - var(--header-h));
+  height: calc(100svh - var(--header-h));
   object-fit: cover;
   object-position: 50% 62%;
-  translate: 0 var(--pin, 0px);
   transform-origin: 50% 50%;
-  will-change: translate, transform;
+  backface-visibility: hidden;
 }
 .reserve__text {
   position: absolute;
+  z-index: 1;
   left: calc(27 * var(--s));
   bottom: calc(104 * var(--s));
   width: calc(850 * var(--s));
@@ -800,6 +810,8 @@ main > .enquiries { background: var(--grey); }
 
 /* Reserve banner: pinned photo zooms in slowly once the banner is on screen */
 .anim .reserve__media.is-in img { animation: hero-zoom 30s var(--ease-slow) both; }
+/* the frame only fades in (a transform here would un-pin the photo) */
+.anim .reserve__media[data-reveal] { transform: none; will-change: opacity; }
 
 /* Suite tab change: cross-fade the panel in */
 .anim .suite.is-switching { animation: panel-in .9s var(--ease) both; }
