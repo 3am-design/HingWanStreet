@@ -211,8 +211,14 @@
     if (heroImg && !heroImg.complete) ready.push(new Promise(function (r) { heroImg.addEventListener('load', r); heroImg.addEventListener('error', r); }));
     var started = false;
     function go() { if (!started) { started = true; startIntro(); } }
-    Promise.all(ready).then(go);
-    setTimeout(go, 2500);
+    function whenUnlocked(fn) {
+      if (!root.classList.contains('locked')) return fn();
+      document.addEventListener('hws:unlocked', fn, { once: true });
+    }
+    whenUnlocked(function () {
+      Promise.all(ready).then(go);
+      setTimeout(go, 2500);
+    });
 
     // Banner parallax + hero dim, rAF-throttled
     var media = document.querySelector('.reserve__media');

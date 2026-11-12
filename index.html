@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
   <title>7 Hing Wan Street | Serviced Apartments in Wan Chai, Hong Kong</title>
   <meta name="description" content="7 Hing Wan Street – 16 fully fitted serviced apartments in the heritage heart of Wan Chai, Hong Kong. Flexible terms from 1 month.">
   <link rel="icon" href="favicon.ico" sizes="any">
@@ -15,20 +16,85 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <script>
     (function (d) {
+      // Preview gate: locked unless a pass from the last 24h is stored in this browser
+      var ok = false;
+      try { ok = Number(localStorage.getItem('hws-pass') || 0) > Date.now(); } catch (e) {}
+      if (!ok) d.classList.add('locked');
+
       if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
       d.classList.add('anim', 'is-intro');
       try { if (sessionStorage.getItem('hws-intro')) d.classList.add('intro-short'); } catch (e) {}
-      // failsafe: never leave the white intro screen up
-      setTimeout(function () {
-        if (d.classList.contains('is-intro')) {
-          d.classList.remove('is-intro');
-          d.classList.add('st-logo-out', 'st-image', 'st-menu', 'st-cta');
-        }
-      }, 6000);
+      // failsafe: never leave the white intro screen up (counted from when the site is shown)
+      window.hwsFailsafe = function () {
+        setTimeout(function () {
+          if (d.classList.contains('is-intro')) {
+            d.classList.remove('is-intro');
+            d.classList.add('st-logo-out', 'st-image', 'st-menu', 'st-cta');
+          }
+        }, 6000);
+      };
+      if (ok) window.hwsFailsafe();
     })(document.documentElement);
   </script>
 </head>
 <body>
+
+<!-- ============ Preview password gate ============ -->
+<div class="gate" id="gate">
+  <p class="gate__soon">Coming soon</p>
+  <main class="gate__stage">
+    <svg class="gate__logo" viewBox="0 0 332 173" role="img" aria-label="7 Hing Wan Street">
+      <text x="-8.2" y="171" font-size="241.04">7</text>
+      <text x="109.45" font-size="64"><tspan x="109.45" y="46.7">HING</tspan><tspan x="109.45" y="108.2">WAN</tspan><tspan x="109.45" y="169.7">STREET</tspan></text>
+    </svg>
+  </main>
+  <div class="gate__dock">
+    <form class="gate__form" id="gate-form" autocomplete="on">
+      <input type="text" name="username" value="7hingwan-preview" autocomplete="username" hidden>
+      <label class="sr" for="gate-pass">Preview password</label>
+      <input id="gate-pass" name="password" type="password" autocomplete="current-password" placeholder="Password" maxlength="256" required>
+      <button type="submit">Enter<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5"/></svg></button>
+    </form>
+    <p class="sr" id="gate-error" role="alert"></p>
+  </div>
+</div>
+<script>
+  (function () {
+    var d = document.documentElement;
+    var gate = document.getElementById('gate');
+    if (!d.classList.contains('locked')) { gate.remove(); return; }
+    var HASH = 'e8306f493656f2baa8826b25ed2dde6d355a77886e64fdf3215ae5e43ba29f07';
+    var form = document.getElementById('gate-form');
+    var input = document.getElementById('gate-pass');
+    var err = document.getElementById('gate-error');
+    setTimeout(function () { input.focus({ preventScroll: true }); }, 900);
+    function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ('0' + b.toString(16)).slice(-2); }).join(''); }
+    input.addEventListener('input', function () { input.removeAttribute('aria-invalid'); input.placeholder = 'Password'; err.textContent = ''; });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      crypto.subtle.digest('SHA-256', new TextEncoder().encode(input.value)).then(function (buf) {
+        if (hex(buf) !== HASH) {
+          input.value = '';
+          input.placeholder = 'Wrong password';
+          input.removeAttribute('aria-invalid'); void input.offsetWidth;
+          input.setAttribute('aria-invalid', 'true');
+          err.textContent = 'Incorrect password.';
+          return;
+        }
+        try { localStorage.setItem('hws-pass', String(Date.now() + 24 * 60 * 60 * 1000)); } catch (e2) {}
+        gate.classList.add('is-leaving');
+        input.blur();
+        setTimeout(function () {
+          d.classList.remove('locked');
+          window.scrollTo(0, 0);
+          document.dispatchEvent(new Event('hws:unlocked'));
+          if (window.hwsFailsafe) window.hwsFailsafe();
+          gate.remove();
+        }, 700);
+      });
+    });
+  })();
+</script>
 
 <!-- Landing intro: white > logo > logo out > image, menu, CTA -->
 <div class="loader" aria-hidden="true">
