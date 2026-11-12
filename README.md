@@ -12,3 +12,11 @@ Preview locally:
     python3 -m http.server 8765
 
 Fonts: Aboreto + Montserrat (Google Fonts).
+
+## Preview gate & deploys
+
+- The page opens behind a black password gate (client-side only: GitHub Pages is static, so this hides the
+  page from casual visitors but is not real protection — the repo itself is public). A correct password is
+  remembered in the browser for 24 hours.
+- GitHub Pages caches CSS/JS for ~10 minutes. When `style.css` or `main.js` change, bump the `?v=` number on
+  their links in `index.html` so visitors never get new HTML with an old stylesheet.
